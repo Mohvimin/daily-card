@@ -17,98 +17,295 @@
 @font-face{font-family:Cairo;font-weight:900;src:url(cairo-arabic-900-normal.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
 @font-face{font-family:Cairo;font-weight:700;src:url(cairo-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:Cairo;font-weight:900;src:url(cairo-latin-900-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-:root{--g:#0E3B26;--bg:#F4F1E8;--mut:#4A5A52;--line:#E2DDD0}
+:root{--g:#0E3B26;--bg:#F4F1E8;--mut:#4A5A52;--line:#E2DDD0;--ar:.8}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);color:var(--g);font-family:Cairo,-apple-system,"Geeza Pro",Tahoma,sans-serif;font-weight:700;padding:max(16px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom))}
 main{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
 h1{font-size:20px;font-weight:900;margin:4px 0 0}
-#cv{width:100%;height:auto;aspect-ratio:1080/1350;border-radius:14px;box-shadow:0 2px 14px #0002;background:#fff;display:block}
+#cv{width:min(100%,calc(78vh * var(--ar)));height:auto;margin:0 auto;border-radius:14px;box-shadow:0 2px 14px #0002;background:#fff;display:block}
 label{display:block;font-size:14px;color:var(--mut);margin-bottom:4px}
-input[type=text],input[type=number]{width:100%;min-height:48px;border:2px solid var(--line);border-radius:12px;background:#fff;padding:6px 12px;font:inherit;font-size:18px;color:var(--g)}
+input:not([type=checkbox]):not([type=range]):not([type=color]):not([type=file]){width:100%;min-height:48px;border:2px solid var(--line);border-radius:12px;background:#fff;padding:6px 12px;font:inherit;font-size:18px;color:var(--g)}
 input:focus{outline:none;border-color:var(--g)}
 .row{display:flex;gap:12px}.row>div{flex:1}
 .seg{display:flex;background:#fff;border:2px solid var(--line);border-radius:12px;overflow:hidden}
-.seg button{flex:1;min-height:46px;border:0;background:none;font:inherit;font-size:17px;color:var(--g)}
+.seg button{flex:1;min-height:46px;border:0;background:none;font:inherit;font-size:16px;color:var(--g);padding:0 4px}
 .seg button.on{background:var(--g);color:#fff}
 .tm{display:flex;gap:8px}.tm input{flex:1}
 .ic{min-width:48px;min-height:48px;border:2px solid var(--g);background:#fff;color:var(--g);border-radius:12px;font:inherit;font-size:15px;padding:0 12px}
 #share{min-height:60px;border:0;border-radius:16px;background:var(--g);color:#fff;font:inherit;font-weight:900;font-size:22px}
 #share:disabled{opacity:.6}
+details{background:#fff;border:2px solid var(--line);border-radius:14px}
+summary{min-height:52px;display:flex;align-items:center;padding:0 14px;font-size:18px;font-weight:900;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";margin-inline-start:auto;font-size:24px}
+details[open]>summary::after{content:"\2212"}
+.in{padding:4px 14px 16px;display:flex;flex-direction:column;gap:12px}
+.pr{border:2px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--bg)}
+.pr .row{align-items:flex-end}.pr .row>div{min-width:0}
+.pr .del{color:#B3122E;border-color:#B3122E;flex:none}
+.pr .del:disabled{opacity:.35}
+.chk{display:flex;align-items:center;gap:12px;min-height:48px;font-size:17px;color:var(--g);margin:0}
+.chk input{width:26px;height:26px;margin:0;accent-color:#0E3B26;flex:none}
+.rg{display:flex;align-items:center;gap:10px;min-height:48px}.rg span{min-width:3.2em;text-align:center;color:var(--mut);font-size:15px}
+input[type=range]{flex:1;min-height:44px;accent-color:#0E3B26}
+.cp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cp label{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0;min-height:48px}
+input[type=color]{width:56px;height:44px;padding:2px;border:2px solid var(--line);border-radius:10px;background:#fff;flex:none}
+input[type=file]{font:inherit;font-size:15px;min-height:48px;max-width:100%}
+.msg{color:#B3122E;font-size:15px;background:#fff;border:2px solid #B3122E;border-radius:12px;padding:8px 12px}
 </style>
 </head>
 <body>
 <main>
 <h1>الأسعار</h1>
-<div><label for="brand">اسم المجموعة (يُحفظ على هاتفك فقط)</label><input id="brand" type="text"></div>
+<div><label for="brand">اسم المجموعة (يُحفظ على هاتفك فقط)</label><input id="brand" type="text" placeholder="اسم المجموعة"></div>
 <canvas id="cv" width="1080" height="1350"></canvas>
-<div class="row">
-<div><label for="buy">شراء</label><input id="buy" type="number" inputmode="decimal" step="any" placeholder="0"></div>
-<div><label for="sell">بيع</label><input id="sell" type="number" inputmode="decimal" step="any" placeholder="0"></div>
-</div>
-<div class="seg" id="mode"><button data-m="both">الكل</button><button data-m="buy">شراء</button><button data-m="sell">بيع</button></div>
+<div id="msg" class="msg" role="status" hidden></div>
+<button id="share" type="button">مشاركة</button>
+<details open><summary>الأسعار</summary><div class="in">
+<div class="seg" id="mode"><button type="button" data-m="both">الكل</button><button type="button" data-m="buy">شراء</button><button type="button" data-m="sell">بيع</button></div>
+<div id="pairs" style="display:flex;flex-direction:column;gap:10px"></div>
+<button class="ic" id="addp" type="button">إضافة زوج</button>
 <div><label for="unit">السطر التوضيحي</label><input id="unit" type="text"></div>
 <div><label for="time">آخر تحديث</label><div class="tm"><input id="time" type="text"><button class="ic" id="now" type="button">تحديث الوقت</button></div></div>
+</div></details>
+<details><summary>الشكل والألوان</summary><div class="in">
+<div><label>حجم البطاقة</label><div class="seg" id="size"><button type="button" data-s="916">9:16 حالة</button><button type="button" data-s="45">4:5 منشور</button><button type="button" data-s="11">1:1</button></div></div>
+<div><label>الألوان</label><div class="seg" id="theme"><button type="button" data-t="light">فاتح</button><button type="button" data-t="gold">أخضر وذهبي</button><button type="button" data-t="red">أبيض وأحمر</button><button type="button" data-t="custom">مخصص</button></div></div>
+<div class="cp" id="custom">
+<label>الخلفية<input type="color" data-cc="bg"></label>
+<label>اللوحة<input type="color" data-cc="panel"></label>
+<label>الأساسي<input type="color" data-cc="pri"></label>
+<label>النص<input type="color" data-cc="txt"></label>
+<label>الثانوي<input type="color" data-cc="mut"></label>
+</div>
+<div><label for="logoFile">الشعار</label><input id="logoFile" type="file" accept="image/*"></div>
+<div><label>موضع الشعار</label><div class="seg" id="lpos"><button type="button" data-p="top">فوق الاسم</button><button type="button" data-p="side">بجانب الاسم</button></div></div>
+<div><label>حجم الشعار</label><div class="rg"><input type="range" id="lsize" min="60" max="360" step="10"><span id="v_ls"></span></div></div>
+<button class="ic" id="lrm" type="button">إزالة الشعار</button>
+</div></details>
+<details><summary>معلومات إضافية</summary><div class="in">
 <div><label for="tag">العبارة السفلية</label><input id="tag" type="text"></div>
-<button id="share" type="button">مشاركة</button>
+<div><label for="i_wa">رقم واتساب</label><input id="i_wa" type="text" inputmode="tel" dir="ltr" data-info="wa"></div>
+<div><label for="i_hours">ساعات العمل</label><input id="i_hours" type="text" data-info="hours"></div>
+<div class="row"><div><label for="i_min">الحد الأدنى</label><input id="i_min" type="text" inputmode="decimal" data-info="min"></div><div><label for="i_max">الحد الأعلى</label><input id="i_max" type="text" inputmode="decimal" data-info="max"></div></div>
+<div><label for="i_note">ملاحظة</label><input id="i_note" type="text" data-info="note"></div>
+</div></details>
+<details><summary>إظهار/إخفاء</summary><div class="in">
+<label class="chk"><input type="checkbox" data-show="flag">شريط الألوان</label><label class="chk"><input type="checkbox" data-show="sub">عنوان «أسعار اليوم»</label><label class="chk"><input type="checkbox" data-show="pair">سطر اسم الزوج</label><label class="chk"><input type="checkbox" data-show="unit">السطر التوضيحي</label><label class="chk"><input type="checkbox" data-show="time">وقت آخر تحديث</label><label class="chk"><input type="checkbox" data-show="tag">العبارة السفلية</label><label class="chk"><input type="checkbox" data-show="logo">الشعار</label>
+</div></details>
+<details><summary>أحجام النص</summary><div class="in">
+<div><label>اسم المجموعة</label><div class="rg"><input type="range" min="70" max="130" step="5" data-sc="brand"><span id="v_brand"></span></div></div><div><label>أرقام الأسعار</label><div class="rg"><input type="range" min="70" max="130" step="5" data-sc="num"><span id="v_num"></span></div></div><div><label>نص المعلومات</label><div class="rg"><input type="range" min="70" max="130" step="5" data-sc="info"><span id="v_info"></span></div></div>
+</div></details>
 </main>
 <script>
 (function(){
-var D={brand:'',buy:'',sell:'',mode:'both',unit:'جنيه سوداني مقابل 1 جنيه مصري',time:'',tag:'سريع .. آمن .. بكل ثقة'};
-var S=Object.assign({},D);
-try{var r=localStorage.getItem('rt1');if(r)Object.assign(S,JSON.parse(r))}catch(e){}
+var SIZES={'916':[1080,1920],'45':[1080,1350],'11':[1080,1080]};
+var PRESETS={
+light:{bg:'#F4F1E8',panel:'#FFFFFF',pri:'#0E3B26',txt:'#0E3B26',mut:'#4A5A52'},
+gold:{bg:'#0B0F0D',panel:'#0E3B26',pri:'#D4AF37',txt:'#FFFFFF',mut:'#E7E2CF'},
+red:{bg:'#FFFFFF',panel:'#FFFFFF',pri:'#B3122E',txt:'#222222',mut:'#555555'}};
+function defaults(){return{brand:'',pairs:[{l:'SDG / EGP',buy:'',sell:''}],mode:'both',unit:'جنيه سوداني مقابل 1 جنيه مصري',time:'',tag:'سريع .. آمن .. بكل ثقة',
+size:'45',theme:'light',custom:Object.assign({},PRESETS.light),logoPos:'top',logoSize:160,
+info:{wa:'',hours:'',min:'',max:'',note:''},
+show:{flag:true,sub:true,pair:true,unit:true,time:true,tag:true,logo:true},
+scale:{brand:100,num:100,info:100}}}
+var S=defaults();
+try{var r=localStorage.getItem('rt1');if(r){var o=JSON.parse(r);
+if(o&&typeof o==='object'){
+if(!Array.isArray(o.pairs)||!o.pairs.length){o.pairs=[{l:'SDG / EGP',buy:o.buy==null?'':o.buy,sell:o.sell==null?'':o.sell}]}
+delete o.buy;delete o.sell;
+['custom','info','show','scale'].forEach(function(k){o[k]=Object.assign({},S[k],o[k]||{})});
+Object.assign(S,o)}}}catch(e){}
+if(!SIZES[S.size])S.size='45';
+if(S.theme!=='custom'&&!PRESETS[S.theme])S.theme='light';
+var LOGO='';try{LOGO=localStorage.getItem('rt1logo')||''}catch(e){}
 var $=function(i){return document.getElementById(i)};
 function nowStr(){try{return new Intl.DateTimeFormat('ar-EG',{timeZone:'Africa/Cairo',year:'numeric',month:'long',day:'numeric',hour:'numeric',minute:'2-digit',hour12:true}).format(new Date())}catch(e){return new Date().toLocaleString()}}
 if(!S.time)S.time=nowStr();
 function save(){try{localStorage.setItem('rt1',JSON.stringify(S))}catch(e){}}
-function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+function msg(t){var m=$('msg');m.textContent=t||'';m.hidden=!t}
+/* colours */
+function hx(h){h=String(h||'#000').replace('#','');if(h.length===3)h=h.replace(/./g,'$&$&');var n=parseInt(h,16);if(isNaN(n))n=0;return[n>>16&255,n>>8&255,n&255]}
+function lum(h){var a=hx(h).map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*a[0]+.7152*a[1]+.0722*a[2]}
+function cr(a,b){var x=lum(a),y=lum(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
+function mix(a,b,t){var p=hx(a),q=hx(b);return'#'+[0,1,2].map(function(i){return('0'+Math.round(p[i]*(1-t)+q[i]*t).toString(16)).slice(-2)}).join('')}
+function pick(list,bg){var b=list[0];list.forEach(function(c){if(cr(c,bg)>cr(b,bg))b=c});return b}
+function TH(){
+var p=S.theme==='custom'?S.custom:PRESETS[S.theme]||PRESETS.light;
+var t={bg:p.bg,panel:p.panel,pri:p.pri,txt:p.txt,mut:p.mut};
+t.box=lum(t.panel)<.3?mix(t.panel,'#000000',.25):t.panel;
+t.line=mix(t.box,t.txt,.2);
+t.buy=pick(['#007229','#5FD38A'],t.box);t.sell=pick(['#CE1126','#FF8A8A'],t.box);
+t.pill=cr(t.pri,'#FFFFFF')>=cr(t.pri,'#111111')?'#FFFFFF':'#111111';
+return t}
+/* drawing helpers */
+function rr(c,x,y,w,h,r){r=Math.max(0,Math.min(r,w/2,h/2));c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
 var FF='Cairo,-apple-system,"Geeza Pro",Tahoma,sans-serif';
+var AR=/[؀-ۿ]/;
+function dirOf(s){return AR.test(s)?'rtl':'ltr'}
 function T(c,s,x,y,size,w,col,dir,al){c.font=w+' '+size+'px '+FF;c.fillStyle=col;c.direction=dir||'rtl';c.textAlign=al||'center';c.textBaseline='alphabetic';c.fillText(s,x,y)}
-function fit(c,s,size,w,max){c.font=w+' '+size+'px '+FF;var m=c.measureText(s).width;return m>max?Math.floor(size*max/m):size}
+function mw(c,s,size,w){c.font=w+' '+size+'px '+FF;return c.measureText(s).width}
+function fit(c,s,size,w,max){var m=mw(c,s,size,w);return m>max?Math.max(6,Math.floor(size*max/m)):size}
+function icon(c,type,x,y,s,col){
+c.save();c.strokeStyle=col;c.fillStyle=col;c.lineWidth=Math.max(2,s*.09);c.lineCap='round';c.lineJoin='round';c.beginPath();
+if(type==='clock'){c.arc(x,y,s*.45,0,Math.PI*2);c.moveTo(x,y-s*.25);c.lineTo(x,y);c.lineTo(x+s*.2,y+s*.12)}
+else if(type==='wa'){c.arc(x,y,s*.43,0,Math.PI*2);c.moveTo(x-s*.3,y+s*.32);c.lineTo(x-s*.5,y+s*.52);c.lineTo(x-s*.1,y+s*.41);c.moveTo(x+s*.16,y-s*.12);c.arc(x,y-s*.12,s*.16,0,Math.PI*1.2)}
+else if(type==='range'){c.moveTo(x-s*.45,y);c.lineTo(x+s*.45,y);c.moveTo(x-s*.45,y);c.lineTo(x-s*.28,y-s*.17);c.moveTo(x-s*.45,y);c.lineTo(x-s*.28,y+s*.17);c.moveTo(x+s*.45,y);c.lineTo(x+s*.28,y-s*.17);c.moveTo(x+s*.45,y);c.lineTo(x+s*.28,y+s*.17)}
+else{c.moveTo(x-s*.42,y-s*.25);c.lineTo(x+s*.42,y-s*.25);c.moveTo(x-s*.42,y);c.lineTo(x+s*.42,y);c.moveTo(x-s*.42,y+s*.25);c.lineTo(x+s*.1,y+s*.25)}
+c.stroke();c.restore()}
+/* logo */
+var LI=null,LOGOP=Promise.resolve();
+function setLogo(url){
+if(!url){LI=null;LOGOP=Promise.resolve();return}
+var im=new Image();
+LOGOP=new Promise(function(res){im.onload=function(){LI=im;res();render()};im.onerror=function(){LI=null;res()}});
+im.src=url}
+function infoList(){
+var i=S.info,L=[];
+if(i.wa.trim())L.push({ic:'wa',lb:'واتساب',v:i.wa.trim(),d:'ltr'});
+if(i.hours.trim())L.push({ic:'clock',lb:'ساعات العمل',v:i.hours.trim(),d:dirOf(i.hours)});
+var mn=i.min.trim(),mx=i.max.trim();
+if(mn&&mx)L.push({ic:'range',lb:'المبلغ',v:mn+' - '+mx,d:'ltr'});
+else if(mn)L.push({ic:'range',lb:'الحد الأدنى',v:mn,d:'ltr'});
+else if(mx)L.push({ic:'range',lb:'الحد الأعلى',v:mx,d:'ltr'});
+if(i.note.trim())L.push({ic:'note',lb:'',v:i.note.trim(),d:dirOf(i.note)});
+return L}
 function draw(cv){
-var c=cv.getContext('2d'),W=1080,H=1350,G='#0E3B26',M='#4A5A52';
-c.clearRect(0,0,W,H);
-c.fillStyle='#F4F1E8';c.fillRect(0,0,W,H);
-rr(c,40,40,W-80,H-80,64);c.fillStyle='#fff';c.fill();c.lineWidth=4;c.strokeStyle=G;c.stroke();
-var bn=S.brand||'اسم المجموعة',bs=fit(c,bn,96,900,W-160);T(c,bn,W/2,215,bs,900,G);
-T(c,'أسعار اليوم',W/2,285,40,700,M);
-T(c,'SDG / EGP',W/2,340,40,700,M,'ltr');
-var cols=['#007229','#D21034','#FFFFFF','#000000','#CE1126'],sw=64,sx=(W-sw*5)/2;
-cols.forEach(function(k,i){c.fillStyle=k;c.fillRect(sx+i*sw,375,sw,14)});
-c.lineWidth=2;c.strokeStyle='#D8D3C4';c.strokeRect(sx,375,sw*5,14);
-var m=S.mode,by=450,bh=420;
-function box(x,w,label,lc,val,size){
-rr(c,x,by,w,bh,36);c.fillStyle='#fff';c.fill();c.lineWidth=3;c.strokeStyle='#E2DDD0';c.stroke();
-T(c,label,x+w/2,by+90,56,900,lc);
-var v=val===''||val==null?'—':String(val);
-var s=fit(c,v,size,900,w-40);
-T(c,v,x+w/2,by+bh/2+s*0.45+40,s,900,G,'ltr');
-}
-if(m==='both'){box(556,444,'شراء','#007229',S.buy,140);box(80,444,'بيع','#CE1126',S.sell,140)}
-else if(m==='buy')box(190,700,'شراء','#007229',S.buy,200);
-else box(190,700,'بيع','#CE1126',S.sell,200);
-var us=fit(c,S.unit,44,700,W-160);T(c,S.unit,W/2,985,us,700,G);
-var ts='آخر تحديث: '+S.time,tz=fit(c,ts,38,700,W-160);T(c,ts,W/2,1060,tz,700,M);
-var tg=S.tag||' ';c.font='900 52px '+FF;
-var tw=Math.min(W-200,Math.max(300,c.measureText(tg).width+120));
-var ts2=fit(c,tg,52,900,tw-80);
-rr(c,(W-tw)/2,1135,tw,120,60);c.fillStyle=G;c.fill();
-T(c,tg,W/2,1135+60+ts2*0.34,ts2,900,'#fff');
-}
+var sz=SIZES[S.size]||SIZES['45'],W=sz[0],H=sz[1];
+if(cv.width!==W)cv.width=W;if(cv.height!==H)cv.height=H;
+var c=cv.getContext('2d'),t=TH(),sb=S.scale.brand/100,sn=S.scale.num/100,si=S.scale.info/100,P=S.pairs,n=P.length,single=n===1,m=S.mode;
+c.clearRect(0,0,W,H);c.fillStyle=t.bg;c.fillRect(0,0,W,H);
+rr(c,40,40,W-80,H-80,64);c.fillStyle=t.panel;c.fill();c.lineWidth=4;c.strokeStyle=t.pri;c.stroke();
+var hasLogo=S.show.logo&&LI&&LI.naturalWidth>0,side=hasLogo&&S.logoPos==='side',IL=infoList();
+function items(k){
+var top=[],bot=[],lw=0,lh=0,y0;
+top.push({h:46*k});
+if(hasLogo){var ar=LI.naturalWidth/LI.naturalHeight;lh=S.logoSize*k;lw=lh*ar;var mxw=side?260:W-300;if(lw>mxw){lw=mxw;lh=lw/ar}}
+if(hasLogo&&!side)top.push({h:lh+16*k,d:function(y){c.drawImage(LI,(W-lw)/2,y,lw,lh)}});
+var bn=S.brand||'اسم المجموعة',nsz=fit(c,bn,96*sb*k,900,W-160-(side?lw+30:0)),nh=Math.max(nsz*1.3,side?lh:0);
+top.push({h:nh+8*k,d:function(y){
+if(side){var nw=mw(c,bn,nsz,900),tot=lw+30+nw,xr=(W+tot)/2;
+c.drawImage(LI,xr-lw,y+(nh-lh)/2,lw,lh);T(c,bn,xr-lw-30,y+(nh-nsz*1.3)/2+nsz,nsz,900,t.pri,'rtl','right')}
+else T(c,bn,W/2,y+(nh-nsz*1.3)/2+nsz,nsz,900,t.pri)}});
+if(S.show.sub){var ss=fit(c,'أسعار اليوم',40*si*k,700,W-160);top.push({h:ss*1.55,d:function(y){T(c,'أسعار اليوم',W/2,y+ss*1.1,ss,700,t.mut)}})}
+var pl=(P[0].l||'').trim();
+if(single&&S.show.pair&&pl){var ps=fit(c,pl,40*si*k,700,W-160);top.push({h:ps*1.55,d:function(y){T(c,pl,W/2,y+ps*1.1,ps,700,t.mut,dirOf(pl))}})}
+if(S.show.flag){top.push({h:(14+30)*k,d:function(y){
+var cols=['#007229','#D21034','#FFFFFF','#000000','#CE1126'],sw=64*k,sx=(W-sw*5)/2,fy=y+12*k;
+cols.forEach(function(q,i){c.fillStyle=q;c.fillRect(sx+i*sw,fy,sw,14*k)});
+c.lineWidth=2;c.strokeStyle=t.line;c.strokeRect(sx,fy,sw*5,14*k)}})}
+if(S.show.unit&&S.unit){var us=fit(c,S.unit,44*si*k,700,W-160);bot.push({h:us*1.6,d:function(y){T(c,S.unit,W/2,y+us*1.15,us,700,t.txt,dirOf(S.unit))}})}
+if(S.show.time){var ts='آخر تحديث: '+S.time,tz=fit(c,ts,38*si*k,700,W-160);bot.push({h:tz*1.6,d:function(y){T(c,ts,W/2,y+tz*1.15,tz,700,t.mut)}})}
+IL.forEach(function(it){
+var sz0=34*si*k,g=.35,gap,tot,lbw,vw;
+function meas(){gap=sz0*g;lbw=it.lb?mw(c,it.lb,sz0,700):0;vw=mw(c,it.v,sz0,700);tot=sz0+gap+(it.lb?lbw+gap:0)+vw}
+meas();if(tot>W-200){sz0=Math.max(8,sz0*(W-200)/tot);meas()}
+var lh2=sz0*1.6,s0=sz0;
+bot.push({h:lh2,d:function(y){
+var xr=(W+tot)/2,cy=y+lh2/2,by=cy+s0*.34;
+icon(c,it.ic,xr-s0/2,cy,s0,t.pri);
+var x=xr-s0-gap;
+if(it.lb){T(c,it.lb,x,by,s0,700,t.mut,'rtl','right');x-=lbw+gap}
+T(c,it.v,x,by,s0,700,t.txt,it.d,'right')}})});
+if(S.show.tag){var tg=S.tag||' ',tw=Math.min(W-200,Math.max(300,mw(c,tg,52*k,900)+120)),tsz=fit(c,tg,52*k,900,tw-80),ph=110*k;
+bot.push({h:ph+24*k,d:function(y){var py=y+24*k;rr(c,(W-tw)/2,py,tw,ph,ph/2);c.fillStyle=t.pri;c.fill();T(c,tg,W/2,py+ph/2+tsz*.34,tsz,900,t.pill)}})}
+bot.push({h:46*k});
+function sum(a){return a.reduce(function(s,q){return s+q.h},0)}
+return{top:top,bot:bot,th:sum(top),bh:sum(bot)}}
+var k=1,L,body,need=single?240:(62+n*54);
+for(;;){L=items(k);body=H-80-L.th-L.bh;if(body>=need||k<=.55)break;k-=.04}
+var y=40;L.top.forEach(function(q){if(q.d)q.d(y);y+=q.h});
+y=H-40-L.bh;L.bot.forEach(function(q){if(q.d)q.d(y);y+=q.h});
+var bt=40+L.th,bH=Math.max(60,body);
+function val(v){return v===''||v==null?'—':String(v)}
+if(single){
+var bh=Math.min(bH-12,560),by=bt+(bH-bh)/2,s=bh/420;
+var box=function(x,w,label,lc,v,size){
+rr(c,x,by,w,bh,36*s);c.fillStyle=t.box;c.fill();c.lineWidth=3;c.strokeStyle=t.line;c.stroke();
+var ls=fit(c,label,56*s,900,w-40);T(c,label,x+w/2,by+90*s,ls,900,lc);
+var vs=val(v),fs=fit(c,vs,Math.min(size*s*sn,bh*.6),900,w-40);
+T(c,vs,x+w/2,by+bh/2+fs*.45+40*s,fs,900,t.txt,'ltr')};
+var p0=P[0];
+if(m==='both'){box(556,444,'شراء',t.buy,p0.buy,140);box(80,444,'بيع',t.sell,p0.sell,140)}
+else if(m==='buy')box(190,700,'شراء',t.buy,p0.buy,200);
+else box(190,700,'بيع',t.sell,p0.sell,200);
+}else{
+var x0=80,tw2=W-160,hh=Math.min(90,bH*.2),rh=Math.min(150,(bH-hh)/n),tot2=hh+rh*n,ty=bt+(bH-tot2)/2;
+var cols=m==='both'?[['cur',.36],['buy',.32],['sell',.32]]:[['cur',.5],[m,.5]],xr=x0+tw2,cx=[];
+cols.forEach(function(q){var w=tw2*q[1];cx.push({k:q[0],c:xr-w/2,w:w});xr-=w});
+rr(c,x0,ty,tw2,tot2,Math.min(36,hh/2));c.fillStyle=t.box;c.fill();c.lineWidth=3;c.strokeStyle=t.line;c.stroke();
+var hs=Math.min(hh*.5,44);
+cx.forEach(function(q){var tx=q.k==='cur'?'العملة':q.k==='buy'?'شراء':'بيع',col=q.k==='cur'?t.mut:q.k==='buy'?t.buy:t.sell;
+T(c,tx,q.c,ty+hh/2+hs*.36,fit(c,tx,hs,900,q.w-20),900,col)});
+c.lineWidth=3;c.strokeStyle=t.pri;c.beginPath();c.moveTo(x0+16,ty+hh);c.lineTo(x0+tw2-16,ty+hh);c.stroke();
+P.forEach(function(p,i){
+var ry=ty+hh+i*rh;
+if(i>0){c.lineWidth=2;c.strokeStyle=t.line;c.beginPath();c.moveTo(x0+16,ry);c.lineTo(x0+tw2-16,ry);c.stroke()}
+cx.forEach(function(q){
+if(q.k==='cur'){var lb=(p.l||'').trim();if(!lb)return;var f=fit(c,lb,Math.min(rh*.36,44)*si,700,q.w-24);T(c,lb,q.c,ry+rh/2+f*.36,f,700,t.txt,dirOf(lb))}
+else{var vs=val(p[q.k]),f2=fit(c,vs,Math.min(rh*.5,78)*sn,900,q.w-24);T(c,vs,q.c,ry+rh/2+f2*.36,f2,900,t.txt,'ltr')}})})
+}}
 var cv=$('cv');
-function render(){draw(cv)}
+function render(){var sz=SIZES[S.size]||SIZES['45'];cv.style.setProperty('--ar',sz[0]/sz[1]);draw(cv)}
+/* UI */
+function renderPairs(){
+var h='';
+S.pairs.forEach(function(p,i){
+h+='<div class="pr"><input type="text" dir="ltr" data-i="'+i+'" data-f="l" placeholder="USD / EGP" aria-label="اسم الزوج"><div class="row"><div><label>شراء</label><input type="number" inputmode="decimal" step="any" placeholder="0" data-i="'+i+'" data-f="buy"></div><div><label>بيع</label><input type="number" inputmode="decimal" step="any" placeholder="0" data-i="'+i+'" data-f="sell"></div><button class="ic del" type="button" data-del="'+i+'"'+(S.pairs.length<2?' disabled':'')+' aria-label="حذف">حذف</button></div></div>'});
+$('pairs').innerHTML=h;
+[].forEach.call($('pairs').querySelectorAll('input'),function(e){e.value=S.pairs[e.dataset.i][e.dataset.f]})}
 function sync(){
-$('brand').value=S.brand;$('buy').value=S.buy;$('sell').value=S.sell;$('unit').value=S.unit;$('time').value=S.time;$('tag').value=S.tag;
-[].forEach.call(document.querySelectorAll('#mode button'),function(b){b.classList.toggle('on',b.dataset.m===S.mode)});
-}
+$('brand').value=S.brand;$('unit').value=S.unit;$('time').value=S.time;$('tag').value=S.tag;
+function seg(id,a,v){[].forEach.call(document.querySelectorAll('#'+id+' button'),function(b){b.classList.toggle('on',b.dataset[a]===v)})}
+seg('mode','m',S.mode);seg('size','s',S.size);seg('theme','t',S.theme);seg('lpos','p',S.logoPos);
+$('custom').style.display=S.theme==='custom'?'':'none';
+[].forEach.call(document.querySelectorAll('[data-cc]'),function(e){e.value=S.custom[e.dataset.cc]});
+[].forEach.call(document.querySelectorAll('[data-info]'),function(e){e.value=S.info[e.dataset.info]});
+[].forEach.call(document.querySelectorAll('[data-show]'),function(e){e.checked=!!S.show[e.dataset.show]});
+[].forEach.call(document.querySelectorAll('[data-sc]'),function(e){e.value=S.scale[e.dataset.sc];$('v_'+e.dataset.sc).textContent=S.scale[e.dataset.sc]+'%'});
+$('lsize').value=S.logoSize;$('v_ls').textContent=S.logoSize;
+$('lrm').disabled=!LOGO}
 function upd(){save();render()}
-[['brand','brand'],['buy','buy'],['sell','sell'],['unit','unit'],['time','time'],['tag','tag']].forEach(function(p){
+[['brand','brand'],['unit','unit'],['time','time'],['tag','tag']].forEach(function(p){
 $(p[0]).addEventListener('input',function(e){S[p[1]]=e.target.value;upd()})});
+$('pairs').addEventListener('input',function(e){var d=e.target.dataset;if(d.f==null)return;S.pairs[d.i][d.f]=e.target.value;upd()});
+$('pairs').addEventListener('click',function(e){var b=e.target.closest('[data-del]');if(!b||S.pairs.length<2)return;S.pairs.splice(+b.dataset.del,1);renderPairs();upd()});
+$('addp').addEventListener('click',function(){
+var sug=['USD / EGP','SAR / SDG','SAR / EGP','USD / SDG','EUR / EGP','AED / EGP'],used=S.pairs.map(function(p){return(p.l||'').trim()}),l=sug.filter(function(x){return used.indexOf(x)<0})[0]||'';
+if(S.pairs.length>=12)return;
+S.pairs.push({l:l,buy:'',sell:''});renderPairs();upd()});
 $('mode').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.mode=b.dataset.m;sync();upd()});
+$('size').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.size=b.dataset.s;sync();upd()});
+$('theme').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.theme=b.dataset.t;sync();upd()});
+$('lpos').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.logoPos=b.dataset.p;sync();upd()});
+$('lsize').addEventListener('input',function(e){S.logoSize=+e.target.value;$('v_ls').textContent=S.logoSize;upd()});
+[].forEach.call(document.querySelectorAll('[data-cc]'),function(e){e.addEventListener('input',function(){S.custom[e.dataset.cc]=e.value;upd()})});
+[].forEach.call(document.querySelectorAll('[data-info]'),function(e){e.addEventListener('input',function(){S.info[e.dataset.info]=e.value;upd()})});
+[].forEach.call(document.querySelectorAll('[data-show]'),function(e){e.addEventListener('change',function(){S.show[e.dataset.show]=e.checked;upd()})});
+[].forEach.call(document.querySelectorAll('[data-sc]'),function(e){e.addEventListener('input',function(){S.scale[e.dataset.sc]=+e.value;$('v_'+e.dataset.sc).textContent=e.value+'%';upd()})});
 $('now').addEventListener('click',function(){S.time=nowStr();sync();upd()});
+$('logoFile').addEventListener('change',function(e){
+var f=e.target.files&&e.target.files[0];e.target.value='';if(!f)return;
+var rd=new FileReader();
+rd.onerror=function(){msg('تعذرت قراءة الصورة')};
+rd.onload=function(){
+var im=new Image();
+im.onerror=function(){msg('تعذرت قراءة الصورة')};
+im.onload=function(){
+var r=Math.min(1,400/Math.max(im.naturalWidth,im.naturalHeight)),w=Math.max(1,Math.round(im.naturalWidth*r)),h=Math.max(1,Math.round(im.naturalHeight*r)),cc=document.createElement('canvas');
+cc.width=w;cc.height=h;cc.getContext('2d').drawImage(im,0,0,w,h);
+var url;try{url=cc.toDataURL('image/png')}catch(er){msg('تعذرت معالجة الصورة');return}
+LOGO=url;S.show.logo=true;setLogo(url);msg('');
+try{localStorage.setItem('rt1logo',url)}catch(er){msg('تعذر حفظ الشعار لأن مساحة التخزين ممتلئة. سيظهر الآن فقط ولن يُحفظ بعد إغلاق الصفحة.')}
+sync();upd()};
+im.src=rd.result};
+rd.readAsDataURL(f)});
+$('lrm').addEventListener('click',function(){LOGO='';setLogo('');try{localStorage.removeItem('rt1logo')}catch(e){}msg('');sync();render()});
 $('share').addEventListener('click',function(){
 var btn=this;btn.disabled=true;
-(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){
-var o=document.createElement('canvas');o.width=1080;o.height=1350;draw(o);
+Promise.all([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),LOGOP]).then(function(){
+var o=document.createElement('canvas');draw(o);
 return new Promise(function(res){o.toBlob(res,'image/png')})
 }).then(function(blob){
 var f=new File([blob],'rates.png',{type:'image/png'});
@@ -118,7 +315,7 @@ var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='r
 setTimeout(function(){URL.revokeObjectURL(a.href)},5000);
 }).catch(function(e){alert('تعذرت المشاركة')}).then(function(){btn.disabled=false});
 });
-sync();render();
+renderPairs();sync();setLogo(LOGO);render();
 if(document.fonts){
 ['900 40px Cairo','700 40px Cairo'].forEach(function(f){document.fonts.load(f,'أ0').catch(function(){});document.fonts.load(f,'0').catch(function(){})});
 document.fonts.ready.then(render);
