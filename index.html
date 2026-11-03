@@ -452,7 +452,7 @@ if(lab){lf=fit(c,lab,Math.min(rh*.22,64),900,w*.3);lw=mw(c,lab,lf,900)}
 var nf=fit(c,vs,Math.min(rh*.66,250)*sn,900,w-lw-50),yb=ry+rh*.74;
 if(lab){T(c,lab,x+w,yb,lf,900,kc(kk),'rtl','right');T(c,vs,x,yb,nf,900,t.txt,'ltr','left')}
 else T(c,vs,x+w/2,yb,nf,900,t.txt,'ltr');
-c.lineWidth=3;c.strokeStyle=ul;c.beginPath();c.moveTo(x,ry+rh*.86);c.lineTo(x+w,ry+rh*.86);c.stroke()}
+if(kk!=='one'){c.lineWidth=3;c.strokeStyle=ul;c.beginPath();c.moveTo(x,ry+rh*.86);c.lineTo(x+w,ry+rh*.86);c.stroke()}}
 if(ks.length===2){var ih=Math.min(110,h*.16),rh=(h-ih)/2;row(y,rh,'buy');swapIcon(x+w/2,y+rh+ih/2,ih*.7,t.pri,true);row(y+rh+ih,rh,'sell')}
 else{var rh2=Math.min(h,380);row(y+(h-rh2)/2,rh2,ks[0])}}
 function drawMinimal(){
