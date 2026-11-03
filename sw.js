@@ -1,4 +1,4 @@
-const C='rates-v4';
+const C='rates-v6';
 const F=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./cairo-arabic-700-normal.woff2','./cairo-arabic-900-normal.woff2','./cairo-latin-700-normal.woff2','./cairo-latin-900-normal.woff2'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(F.map(u=>new Request(u,{cache:'reload'})))).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
